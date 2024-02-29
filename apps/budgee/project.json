@@ -1,0 +1,8 @@
+{
+  "name": "budgee",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/budgee/src",
+  "projectType": "application",
+  "targets": {},
+  "tags": []
+}
