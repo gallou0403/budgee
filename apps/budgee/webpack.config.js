@@ -1,6 +1,7 @@
 const { NxWebpackPlugin } = require('@nx/webpack');
 const { NxReactWebpackPlugin } = require('@nx/react');
 const { join } = require('path');
+const StylexPlugin = require('@stylexjs/webpack-plugin');
 
 module.exports = {
   output: {
@@ -26,5 +27,6 @@ module.exports = {
       // See: https://react-svgr.com/
       // svgr: false
     }),
+    new StylexPlugin()
   ],
 };

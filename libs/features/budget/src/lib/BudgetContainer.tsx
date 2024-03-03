@@ -1,5 +1,7 @@
+import * as stylex from '@stylexjs/stylex';
 import {Budget, TransactionCategory} from "@budgee/domain";
 import {BudgetTable} from "./BudgetTable";
+import styles from './BudgetContainer.stylex';
 
 export const BudgetContainer = () => {
     const BUDGETS: Budget[] = [
@@ -43,7 +45,11 @@ export const BudgetContainer = () => {
 
     const Budgets = BUDGETS.map((budget: Budget) => {
         return (
+          <div {...stylex.props(
+            styles.root
+          )}>
             <BudgetTable budget={budget} key={budget.id}/>
+          </div>
         );
     });
 
