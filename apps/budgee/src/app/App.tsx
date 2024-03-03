@@ -1,5 +1,4 @@
-import {BudgetContainer} from "./components/BudgetContainer";
-
+import {BudgetContainer} from "@budgee/features/budget";
 
 function App() {
   return (
