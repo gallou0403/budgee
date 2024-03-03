@@ -45,9 +45,7 @@ export const BudgetContainer = () => {
 
     const Budgets = BUDGETS.map((budget: Budget) => {
         return (
-          <div {...stylex.props(
-            styles.root
-          )}>
+          <div {...stylex.props(styles.root)}>
             <BudgetTable budget={budget} key={budget.id}/>
           </div>
         );
@@ -59,11 +57,3 @@ export const BudgetContainer = () => {
         </>
     );
 }
-
-/*
-
-   BudgetModel
-
-
-
- */
