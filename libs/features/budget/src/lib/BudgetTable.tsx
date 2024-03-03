@@ -10,7 +10,6 @@ export const BudgetTable = ({budget}: BudgetTableProps) => {
 
     const {actual, projected} = calculateRemainingBudgetAmount(budget.amount, budget.transactions);
 
-
     return (
         <>
             <h2>{budget.name}</h2>
