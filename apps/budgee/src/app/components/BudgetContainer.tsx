@@ -1,5 +1,4 @@
-import {Budget} from "../domain/budget.interface";
-import {TransactionCategory} from "../domain/transaction-category.type";
+import {Budget, TransactionCategory} from "@budgee/domain";
 import {BudgetTable} from "./BudgetTable";
 
 export const BudgetContainer = () => {

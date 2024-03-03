@@ -1,6 +1,5 @@
-import {Budget} from "../domain/budget.interface";
+import {Budget, Transaction} from "@budgee/domain";
 import {BudgetRow} from "./BudgetRow";
-import {Transaction} from "../domain/transaction.interface";
 
 export const BudgetTable = ({budget}: BudgetTableProps) => {
     const Rows = budget.transactions.map((transaction: Transaction) => {

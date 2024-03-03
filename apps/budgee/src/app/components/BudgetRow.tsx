@@ -1,4 +1,4 @@
-import {Transaction} from "../domain/transaction.interface";
+import {Transaction} from "@budgee/domain";
 
 interface BudgetRowProps {
     transaction: Transaction;
