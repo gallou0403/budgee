@@ -2,7 +2,9 @@
   "name": "@budgee/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "serve:client": "npx nx serve budgee"
+  },
   "private": true,
   "dependencies": {
     "react": "18.2.0",
