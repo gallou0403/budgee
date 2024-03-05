@@ -1,5 +1,5 @@
 import {Budget, TransactionCategory} from "@budgee/domain";
-import {BudgetTable} from "./BudgetTable";
+import {BudgetTransactionsList} from "./BudgetTransactionsList";
 
 export const BudgetContainer = () => {
     const BUDGETS: Budget[] = [
@@ -43,7 +43,9 @@ export const BudgetContainer = () => {
 
     const Budgets = BUDGETS.map((budget: Budget) => {
         return (
-          <BudgetTable budget={budget} key={budget.id}/>
+          <div className="grid grid-cols-3" key={budget.id}>
+            <BudgetTransactionsList budget={budget}/>
+          </div>
         );
     });
 
