@@ -1,74 +1,35 @@
-import {Budget, Transaction} from "@budgee/domain";
+import {Transaction} from "@budgee/domain";
 import {BudgetTransactionsListItem} from "./BudgetTransactionsListItem";
 import {OrderList} from "primereact/orderlist";
-import React, {useState} from "react";
+import {useState} from "react";
+import {BudgetTransactionsListProps} from "./interfaces/budget-transactions-list-props.interface";
+import {BudgetTransactionsListFooter} from "./BudgetTransactionsListFooter";
 
-export const BudgetTransactionsList = ({budget}: BudgetTableProps) => {
+export const BudgetTransactionsList = ({budget}: BudgetTransactionsListProps) => {
   const [selected, setSelected] = useState<Transaction | null>(null);
-  const {actual, projected} = calculateRemainingBudgetAmount(budget.amount, budget.transactions);
-
-  const listItemTemplate = (transaction: Transaction) => {
-    return (
-      <BudgetTransactionsListItem
-        onClick={setSelected}
-        transaction={transaction}
-        isSelected={selected?.id === transaction.id}
-      />
-    );
-  }
-
-  const pt = {
-    controls: {className: 'hidden'},
-    item: {className: 'p-0'},
-  };
 
   return (
-    <div>
-      <h2>{budget.name}</h2>
+    <div className="p-4">
+      <h2 className="p-3 text-xl">{budget.name}</h2>
       {/*<h3>{formatBudgetDateRange(budget)}</h3>*/}
       <OrderList dataKey="id"
                  value={budget.transactions}
                  onChange={(e) => console.log(e)}
-                 itemTemplate={listItemTemplate}
+                 itemTemplate={(transaction: Transaction) => (
+                   <BudgetTransactionsListItem
+                     transaction={transaction}
+                     onSelect={setSelected}
+                     isSelected={selected?.id === transaction.id}
+                   />
+                 )}
                  header={`$${budget.amount}`}
                  dragdrop
-                 pt={pt}>
+                 pt={{
+                   controls: {className: 'hidden'},
+                   item: {className: 'py-0'},
+                 }}>
       </OrderList>
-
-      <h3 className="m-4 text-right">Actual: ${actual}</h3>
-      <h3 className="m-4 text-right">Projected: ${projected}</h3>
-      <h3 className="m-4 text-right">Selected: {selected?.id}</h3>
+      <BudgetTransactionsListFooter budgetAmount={budget.amount} transactions={budget.transactions}/>
     </div>
   );
-}
-
-// Domain
-
-interface BudgetTableProps {
-  budget: Budget;
-}
-
-// Utils
-
-const calculateRemainingBudgetAmount = (
-  budgetAmount: number,
-  transactions: Transaction[]
-): { actual: number, projected: number } => {
-  return transactions.reduce((acc, transaction) => {
-    // If the transaction has been paid, subtract the amount from the actual
-    if (transaction.paid) {
-      acc.actual -= transaction.amount;
-    }
-
-    // always subtract the amount from the projected
-    acc.projected -= transaction.amount;
-
-    return acc;
-  }, {actual: budgetAmount, projected: budgetAmount});
 };
-
-const formatBudgetDateRange = (budget: Budget): string => {
-  const startDate = new Date(budget.startDate).toLocaleDateString();
-  const endDate = new Date(budget.endDate).toLocaleDateString();
-  return `${startDate} - ${endDate}`;
-}
