@@ -1,6 +1,16 @@
-import {BudgetTransactionsListItemProps} from "./interfaces/budget-transactions-list-item-props.interface";
+import {Dispatch} from "react";
+import {Transaction} from "@budgee/domain";
 
-export const BudgetTransactionsListItem = ({transaction, onSelect, isSelected}: BudgetTransactionsListItemProps) => {
+export interface BudgetTransactionsListItemProps {
+  transaction: Transaction;
+  onSelect: Dispatch<Transaction>;
+  isSelected: boolean;
+  onUpdate: Dispatch<Transaction>;
+}
+
+export const BudgetTransactionsListItem = (
+  {transaction, onSelect, isSelected}: BudgetTransactionsListItemProps
+) => {
   return (
     <div className="flex flex-wrap p-2 align-items-center gap-3" onClick={() => onSelect(transaction)}>
       <div className="flex-1 flex flex-column gap-2 xl:mr-8">

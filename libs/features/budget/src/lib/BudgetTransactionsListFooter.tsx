@@ -1,5 +1,9 @@
-import {BudgetTransactionsListFooterProps} from "./interfaces/budget-transactions-list-footer-props.interface";
 import {Transaction} from "@budgee/domain";
+
+export interface BudgetTransactionsListFooterProps {
+  budgetAmount: number,
+  transactions: Transaction[]
+}
 
 export const BudgetTransactionsListFooter = ({budgetAmount, transactions}: BudgetTransactionsListFooterProps) => {
   const {actual, projected} = getRemainingBudget(budgetAmount, transactions);
