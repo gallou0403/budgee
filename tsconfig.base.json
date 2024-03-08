@@ -17,6 +17,7 @@
     "paths": {
       "@budgee/domain": ["libs/domain/src/index.ts"],
       "@budgee/features/budget": ["libs/features/budget/src/index.ts"],
+      "@budgee/state": ["libs/state/src/index.ts"],
       "@budgee/utils": ["libs/utils/src/index.ts"]
     }
   },
