@@ -7,6 +7,10 @@ module.exports = {
       __dirname,
       '{src,pages,components,app}/**/*!(*.stories|*.spec).{ts,tsx,html}'
     ),
+    join(
+      __dirname,
+      'node_modules/primereact/**/*.{js,ts,jsx,tsx}'
+    ),
     ...createGlobPatternsForDependencies(__dirname),
   ],
   theme: {

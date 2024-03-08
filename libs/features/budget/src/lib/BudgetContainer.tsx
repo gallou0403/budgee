@@ -33,7 +33,7 @@ export const BudgetContainer = () => {
                     description: 'Dinner',
                     comment: 'Date night',
                     amount: 100.00,
-                    dueDate: '',
+                    dueDate: '2024-02-14',
                     paid: false,
                     category: TransactionCategory.Entertainment
                 }

@@ -1,23 +1,48 @@
-import {Dispatch} from "react";
+import {Dispatch, useState} from "react";
 import {Transaction} from "@budgee/domain";
+import {MultiStateCheckbox} from "primereact/multistatecheckbox";
+import {Tag} from "primereact/tag";
+import {DateTime} from "luxon";
+import { Tooltip } from 'primereact/tooltip';
 
 export interface BudgetTransactionsListItemProps {
   transaction: Transaction;
-  onSelect: Dispatch<Transaction>;
-  isSelected: boolean;
   onUpdate: Dispatch<Transaction>;
 }
 
 export const BudgetTransactionsListItem = (
-  {transaction, onSelect, isSelected}: BudgetTransactionsListItemProps
+  {transaction, onUpdate}: BudgetTransactionsListItemProps
 ) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+
   return (
-    <div className="flex flex-wrap p-2 align-items-center gap-3" onClick={() => onSelect(transaction)}>
-      <div className="flex-1 flex flex-column gap-2 xl:mr-8">
-        <span className="font-bold">{transaction.description}</span>
-        {isSelected && <span>{transaction.comment}</span>}
+    <div className="p-2">
+      <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3">
+          <MultiStateCheckbox
+            value={transaction.paid}
+            onChange={(e) => {
+              onUpdate({...transaction, paid: e.value});
+            }}
+            options={[{ value: true, icon: 'pi pi-dollar' }]}
+            optionValue="value"
+          />
+
+          <span className="tooltip-target">{transaction.description}</span>
+
+          {transaction.comment &&
+            <i className="pi pi-info-circle text-xs -ml-2 pb-2" data-pr-tooltip={transaction.comment}>
+              <Tooltip target=".pi-info-circle" />
+            </i>
+          }
+        </div>
+        <div className="flex items-center gap-3 ml-auto">
+          {transaction.dueDate &&
+            <Tag value={DateTime.fromISO(transaction.dueDate).toFormat('LLL d')} severity="info" />
+          }
+          <span>${transaction.amount}</span>
+        </div>
       </div>
-      <span className="font-bold text-900">${transaction.amount}</span>
     </div>
   );
 };

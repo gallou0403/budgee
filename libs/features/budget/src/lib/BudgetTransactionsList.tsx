@@ -9,7 +9,21 @@ export interface BudgetTransactionsListProps {
 }
 
 export const BudgetTransactionsList = ({budget}: BudgetTransactionsListProps) => {
-  const [selected, setSelected] = useState<Transaction | null>(null);
+
+  // todo: update the budget transactions
+  //  this probably means creating an onUpdate function that updates the budget??
+  //  probably depends on if we go Mongo vs. Postgres.. If we go Postgress we would
+  //  probably update the transaction directly
+
+  // todo: if we use Recoil... would we need to update the budget state here?
+  //  or would we update state from the list item component?
+  const onTransactionUpdated = (transaction: Transaction): void => {
+    const updatedTransactions = budget.transactions.map((t) => {
+      return t.id === transaction.id ? transaction : t;
+    });
+
+    console.log(updatedTransactions);
+  }
 
   return (
     <div className="p-4">
@@ -23,8 +37,7 @@ export const BudgetTransactionsList = ({budget}: BudgetTransactionsListProps) =>
                  itemTemplate={(transaction: Transaction) => (
                    <BudgetTransactionsListItem
                      transaction={transaction}
-                     onSelect={setSelected}
-                     isSelected={selected?.id === transaction.id}
+                     onUpdate={onTransactionUpdated}
                    />
                  )}
                  pt={{
