@@ -8,7 +8,7 @@ export const BudgetContainer = () => {
   const Budgets = (budgets || []).map((budget: Budget) => {
     return (
       <div className="grid grid-cols-3" key={budget.id}>
-        <BudgetTransactionsList budget={budget} onChange={updateBudget}/>
+        <BudgetTransactionsList budget={budget} onUpdate={updateBudget}/>
       </div>
     );
   });

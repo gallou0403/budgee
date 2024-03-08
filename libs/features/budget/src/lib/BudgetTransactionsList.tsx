@@ -1,4 +1,4 @@
-import {Dispatch} from "react";
+import {Dispatch, useState} from "react";
 import {OrderList} from "primereact/orderlist";
 import {Budget, Transaction} from "@budgee/domain";
 import {BudgetTransactionsListItem} from "./BudgetTransactionsListItem";
@@ -6,17 +6,24 @@ import {BudgetTransactionsListFooter} from "./BudgetTransactionsListFooter";
 
 export interface BudgetTransactionsListProps {
   budget: Budget;
-  onChange: Dispatch<Budget>
+  onUpdate: Dispatch<Budget>
 }
 
-export const BudgetTransactionsList = ({budget, onChange}: BudgetTransactionsListProps) => {
+export const BudgetTransactionsList = ({budget, onUpdate}: BudgetTransactionsListProps) => {
+  const [editing, setEditing] = useState<string | null>(null);
+
   const onTransactionUpdated = (transaction: Transaction): void => {
     const transactions = budget.transactions.map((t) => {
       return t.id === transaction.id ? transaction : t;
     });
 
-    onChange({...budget, transactions});
+    onUpdate({...budget, transactions});
   }
+
+  const onTransactionDeleted = (transaction: Transaction): void => {
+    const transactions = budget.transactions.filter((t) => t.id !== transaction.id);
+    onUpdate({...budget, transactions});
+  };
 
   return (
     <div className="p-4">
@@ -25,12 +32,17 @@ export const BudgetTransactionsList = ({budget, onChange}: BudgetTransactionsLis
       <OrderList dataKey="id"
                  dragdrop
                  value={budget.transactions}
-                 onChange={(e) => onChange({...budget, transactions: e.value})}
+                 onChange={(e) => onUpdate({...budget, transactions: e.value})}
                  header={`$${budget.amount}`}
                  itemTemplate={(transaction: Transaction) => (
                    <BudgetTransactionsListItem
                      transaction={transaction}
+                     isExpanded={editing === transaction.id}
+                     onExpand={(isEditing: boolean) => {
+                       setEditing(isEditing ? transaction.id : null);
+                     }}
                      onUpdate={onTransactionUpdated}
+                     onDelete={onTransactionDeleted}
                    />
                  )}
                  pt={{
