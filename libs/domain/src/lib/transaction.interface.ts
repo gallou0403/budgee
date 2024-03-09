@@ -7,3 +7,14 @@ export interface Transaction {
     paid: boolean;
     category?: number;
 }
+
+export const createTransaction = (props: Partial<Transaction> = {}): Transaction => {
+    return {
+        id: '',
+        description: '',
+        comment: '',
+        amount: 0,
+        paid: false,
+        ...props
+    }
+};

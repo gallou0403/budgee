@@ -1,8 +1,9 @@
 import {Dispatch, useState} from "react";
 import {OrderList} from "primereact/orderlist";
-import {Budget, Transaction} from "@budgee/domain";
+import {Budget, createTransaction, Transaction} from "@budgee/domain";
 import {BudgetTransactionsListItem} from "./BudgetTransactionsListItem";
 import {BudgetTransactionsListFooter} from "./BudgetTransactionsListFooter";
+import {Button} from "primereact/button";
 
 export interface BudgetTransactionsListProps {
   budget: Budget;
@@ -11,6 +12,12 @@ export interface BudgetTransactionsListProps {
 
 export const BudgetTransactionsList = ({budget, onUpdate}: BudgetTransactionsListProps) => {
   const [editing, setEditing] = useState<string | null>(null);
+
+  const onTransactionAdded = (): void => {
+    const newTransaction = createTransaction();
+    onUpdate({...budget, transactions: [...budget.transactions, newTransaction]});
+    setEditing(newTransaction.id);
+  }
 
   const onTransactionUpdated = (transaction: Transaction): void => {
     const transactions = budget.transactions.map((t) => {
@@ -23,6 +30,7 @@ export const BudgetTransactionsList = ({budget, onUpdate}: BudgetTransactionsLis
   const onTransactionDeleted = (transaction: Transaction): void => {
     const transactions = budget.transactions.filter((t) => t.id !== transaction.id);
     onUpdate({...budget, transactions});
+    setEditing(null);
   };
 
   return (
@@ -33,7 +41,16 @@ export const BudgetTransactionsList = ({budget, onUpdate}: BudgetTransactionsLis
                  dragdrop
                  value={budget.transactions}
                  onChange={(e) => onUpdate({...budget, transactions: e.value})}
-                 header={`$${budget.amount}`}
+                 header={(
+                   <div className="flex justify-between">
+                     <div className="flex items-center">
+                       ${budget.amount}
+                     </div>
+                     <div className="flex items-center">
+                       <Button disabled={!!editing || editing === ''} icon="pi pi-plus" className="bg-transparent text-white" onClick={onTransactionAdded}/>
+                     </div>
+                   </div>
+                 )}
                  itemTemplate={(transaction: Transaction) => (
                    <BudgetTransactionsListItem
                      transaction={transaction}
